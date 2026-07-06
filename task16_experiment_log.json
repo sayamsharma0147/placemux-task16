@@ -1,0 +1,151 @@
+{
+  "task": "Task 16 \u2014 Model Validation & K-Fold",
+  "timestamp": "2026-07-06T05:21:28.380668",
+  "seed": 42,
+  "cv_scheme": "StratifiedKFold(n_splits=5, shuffle=True)",
+  "metric": "F1 (Hard class, positive label=1)",
+  "features": [
+    "q_len",
+    "q_word_count",
+    "avg_opt_len",
+    "max_opt_len",
+    "avg_word_len",
+    "q_to_avg_opt_ratio",
+    "domain_enc",
+    "topic_enc"
+  ],
+  "n_features": 8,
+  "n_samples": 4799,
+  "results": {
+    "Dummy (majority)": {
+      "mean": 0.6787,
+      "std": 0.0002,
+      "min": 0.6786,
+      "max": 0.6791,
+      "scores": [
+        0.6786,
+        0.6786,
+        0.6786,
+        0.6786,
+        0.6791
+      ]
+    },
+    "LogisticRegression": {
+      "mean": 0.55,
+      "std": 0.0259,
+      "min": 0.5029,
+      "max": 0.5724,
+      "scores": [
+        0.5609,
+        0.5424,
+        0.5724,
+        0.5029,
+        0.5714
+      ]
+    },
+    "RandomForest (default)": {
+      "mean": 0.6216,
+      "std": 0.0131,
+      "min": 0.6045,
+      "max": 0.6413,
+      "scores": [
+        0.6103,
+        0.6413,
+        0.6278,
+        0.6045,
+        0.6243
+      ]
+    },
+    "RandomForest (tuned)": {
+      "mean": 0.641,
+      "std": 0.0099,
+      "min": 0.622,
+      "max": 0.6498,
+      "scores": [
+        0.6498,
+        0.6477,
+        0.6436,
+        0.622,
+        0.6416
+      ]
+    },
+    "XGBoost (tuned)": {
+      "mean": 0.6293,
+      "std": 0.0145,
+      "min": 0.613,
+      "max": 0.6526,
+      "scores": [
+        0.6385,
+        0.613,
+        0.6526,
+        0.6182,
+        0.6239
+      ]
+    },
+    "XGBoost (nested CV)": {
+      "mean": 0.6915,
+      "std": 0.0032,
+      "min": 0.6876,
+      "max": 0.6959,
+      "scores": [
+        0.6913,
+        0.6876,
+        0.6942,
+        0.6885,
+        0.6959
+      ]
+    }
+  },
+  "winner": "XGBoost (nested CV)",
+  "winner_mean_f1": 0.6915,
+  "winner_std_f1": 0.0032,
+  "nested_cv_note": "XGBoost nested CV uses inner 3-fold search (15 iter) per outer fold \u2014 corrects optimism bias",
+  "best_params_per_fold": [
+    {
+      "subsample": "0.8",
+      "reg_alpha": "0",
+      "n_estimators": "200",
+      "min_child_weight": "5",
+      "max_depth": "None",
+      "learning_rate": "0.01",
+      "colsample_bytree": "0.9"
+    },
+    {
+      "subsample": "0.8",
+      "reg_alpha": "0.1",
+      "n_estimators": "150",
+      "min_child_weight": "1",
+      "max_depth": "4",
+      "learning_rate": "0.01",
+      "colsample_bytree": "0.7"
+    },
+    {
+      "subsample": "0.8",
+      "reg_alpha": "0",
+      "n_estimators": "200",
+      "min_child_weight": "5",
+      "max_depth": "None",
+      "learning_rate": "0.01",
+      "colsample_bytree": "0.9"
+    },
+    {
+      "subsample": "0.7",
+      "reg_alpha": "0.5",
+      "n_estimators": "150",
+      "min_child_weight": "5",
+      "max_depth": "4",
+      "learning_rate": "0.01",
+      "colsample_bytree": "0.9"
+    },
+    {
+      "subsample": "0.9",
+      "reg_alpha": "0",
+      "n_estimators": "200",
+      "min_child_weight": "3",
+      "max_depth": "3",
+      "learning_rate": "0.01",
+      "colsample_bytree": "0.8"
+    }
+  ],
+  "conclusion": "XGBoost (nested CV) generalises best: F1=0.6915 \u00b1 0.0032 across 5 folds."
+}
